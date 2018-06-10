@@ -52,7 +52,7 @@ export class ReactNativeModal extends Component {
     onBackdropPress: PropTypes.func,
     onSwipe: PropTypes.func,
     swipeThreshold: PropTypes.number,
-    swipeDirection: PropTypes.oneOf(["up", "down", "left", "right"]),
+    swipeDirection: PropTypes.array,
     useNativeDriver: PropTypes.bool,
     style: PropTypes.any,
     scrollTo: PropTypes.func,
@@ -168,8 +168,8 @@ export class ReactNativeModal extends Component {
     let animEvt = null;
 
     if (
-      this.props.swipeDirection === "right" ||
-      this.props.swipeDirection === "left"
+      this.props.swipeDirection.indexOf("right") >= 0 ||
+      this.props.swipeDirection.indexOf("left") >= 0
     ) {
       animEvt = Animated.event([null, { dx: this.state.pan.x }]);
     } else {
@@ -237,18 +237,36 @@ export class ReactNativeModal extends Component {
   };
 
   getAccDistancePerDirection = gestureState => {
-    switch (this.props.swipeDirection) {
-      case "up":
-        return -gestureState.dy;
-      case "down":
-        return gestureState.dy;
-      case "right":
-        return gestureState.dx;
-      case "left":
-        return -gestureState.dx;
-      default:
-        return 0;
+    const draggedDown = gestureState.dy > 0;
+    const draggedUp = gestureState.dy < 0;
+    const draggedLeft = gestureState.dx < 0;
+    const draggedRight = gestureState.dx > 0;
+
+    if (this.props.swipeDirection.indexOf("up") >= 0 && draggedUp) {
+      return -gestureState.dy;
+    } else if (this.props.swipeDirection.indexOf("down") >= 0 && draggedDown) {
+      return gestureState.dy;
+    } else if (this.props.swipeDirection.indexOf("right") >= 0 && draggedRight) {
+      return gestureState.dx;
+    } else if (this.props.swipeDirection.indexOf("left") >= 0 && draggedLeft) {
+      return -gestureState.dx;
     }
+    return 0;
+
+
+
+    // switch (this.props.swipeDirection) {
+    //   case "up":
+    //     return -gestureState.dy;
+    //   case "down":
+    //     return gestureState.dy;
+    //   case "right":
+    //     return gestureState.dx;
+    //   case "left":
+    //     return -gestureState.dx;
+    //   default:
+    //     return 0;
+    // }
   };
 
   isSwipeDirectionAllowed = ({ dy, dx }) => {
@@ -257,13 +275,13 @@ export class ReactNativeModal extends Component {
     const draggedLeft = dx < 0;
     const draggedRight = dx > 0;
 
-    if (this.props.swipeDirection === "up" && draggedUp) {
+    if (this.props.swipeDirection.indexOf("up") >= 0 && draggedUp) {
       return true;
-    } else if (this.props.swipeDirection === "down" && draggedDown) {
+    } else if (this.props.swipeDirection.indexOf("down") >= 0 && draggedDown) {
       return true;
-    } else if (this.props.swipeDirection === "right" && draggedRight) {
+    } else if (this.props.swipeDirection.indexOf("right") >= 0 && draggedRight) {
       return true;
-    } else if (this.props.swipeDirection === "left" && draggedLeft) {
+    } else if (this.props.swipeDirection.indexOf("left") >= 0 && draggedLeft) {
       return true;
     }
     return false;

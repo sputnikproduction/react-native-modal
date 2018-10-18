@@ -133,7 +133,6 @@ For a more complex example take a look at the `/example` directory.
 | backdropTransitionInTiming     | number           | 300            | The backdrop show timing (in ms)                                                             |
 | backdropTransitionOutTiming    | number           | 300            | The backdrop hide timing (in ms)                                                             |
 | children                       | node             | **REQUIRED**   | The modal content                                                                            |
-| topContent                     | node             | null           | The top content of modal                                                                     |
 | isVisible                      | bool             | **REQUIRED**   | Show the modal?                                                                              |
 | onBackButtonPress              | func             | () => null     | Called when the Android back button is pressed                                               |
 | onBackdropPress                | func             | () => null     | Called when the backdrop is pressed                                                          |

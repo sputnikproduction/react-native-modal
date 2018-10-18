@@ -3,7 +3,12 @@ declare module "react-native-modal" {
   import { StyleProp, ViewStyle } from "react-native";
 
   type AnimationConfig = string | { from: Object; to: Object };
-  type Orientation = "portrait" | "portrait-upside-down" | "landscape" | "landscape-left" | "landscape-right";
+  type Orientation =
+    | "portrait"
+    | "portrait-upside-down"
+    | "landscape"
+    | "landscape-left"
+    | "landscape-right";
 
   export interface ModalProps {
     animationIn?: AnimationConfig;
@@ -17,6 +22,7 @@ declare module "react-native-modal" {
     backdropTransitionOutTiming?: number;
     useNativeDriver?: boolean;
     children: ReactNode;
+    topContent?: ReactNode;
     hideModalContentWhileAnimating?: boolean;
     isVisible: boolean;
     onModalShow?: () => void;
@@ -35,7 +41,11 @@ declare module "react-native-modal" {
     onShow?: () => void;
     hardwareAccelerated?: boolean;
     onOrientationChange?: (orientation: "portrait" | "landscape") => void;
-    presentationStyle?: "fullScreen" | "pageSheet" | "formSheet" | "overFullScreen";
+    presentationStyle?:
+      | "fullScreen"
+      | "pageSheet"
+      | "formSheet"
+      | "overFullScreen";
   }
 
   class Modal extends Component<ModalProps> {}

@@ -44,6 +44,7 @@ class ReactNativeModal extends Component {
     backdropTransitionInTiming: PropTypes.number,
     backdropTransitionOutTiming: PropTypes.number,
     children: PropTypes.node.isRequired,
+    topContent: PropTypes.node,
     isVisible: PropTypes.bool.isRequired,
     hideModalContentWhileAnimating: PropTypes.bool,
     onModalShow: PropTypes.func,
@@ -81,6 +82,7 @@ class ReactNativeModal extends Component {
     backdropTransitionOutTiming: 300,
     onModalShow: () => null,
     onModalHide: () => null,
+    topConent: null,
     isVisible: false,
     hideModalContentWhileAnimating: false,
     onBackdropPress: () => null,
@@ -263,14 +265,15 @@ class ReactNativeModal extends Component {
       return -gestureState.dy;
     } else if (this.props.swipeDirection.indexOf("down") >= 0 && draggedDown) {
       return gestureState.dy;
-    } else if (this.props.swipeDirection.indexOf("right") >= 0 && draggedRight) {
+    } else if (
+      this.props.swipeDirection.indexOf("right") >= 0 &&
+      draggedRight
+    ) {
       return gestureState.dx;
     } else if (this.props.swipeDirection.indexOf("left") >= 0 && draggedLeft) {
       return -gestureState.dx;
     }
     return 0;
-
-
 
     // switch (this.props.swipeDirection) {
     //   case "up":
@@ -296,7 +299,10 @@ class ReactNativeModal extends Component {
       return true;
     } else if (this.props.swipeDirection.indexOf("down") >= 0 && draggedDown) {
       return true;
-    } else if (this.props.swipeDirection.indexOf("right") >= 0 && draggedRight) {
+    } else if (
+      this.props.swipeDirection.indexOf("right") >= 0 &&
+      draggedRight
+    ) {
       return true;
     } else if (this.props.swipeDirection.indexOf("left") >= 0 && draggedLeft) {
       return true;
@@ -427,6 +433,7 @@ class ReactNativeModal extends Component {
       backdropTransitionInTiming,
       backdropTransitionOutTiming,
       children,
+      topContent,
       isVisible,
       onModalShow,
       onBackdropPress,
@@ -479,6 +486,7 @@ class ReactNativeModal extends Component {
         onRequestClose={onBackButtonPress}
         {...otherProps}
       >
+        <View style={{ position: "absolute", zIndex: 1 }}>{topContent}</View>
         <TouchableWithoutFeedback onPress={onBackdropPress}>
           <View
             ref={ref => (this.backdropRef = ref)}
